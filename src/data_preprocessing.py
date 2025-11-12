@@ -9,7 +9,7 @@ log_dir='logs'
 os.makedirs(log_dir,exist_ok=True)
 
 #Create Logger
-logger=logging.getLogger('data_import')
+logger=logging.getLogger('data_preprocess')
 logger.setLevel("DEBUG")
 
 #Stream console handler
@@ -35,7 +35,7 @@ def data_preprocess( data=load_data()):
         logger.debug('Data Preprocessing completed')
         return data
     except Exception as e:
-        logger.error('Error during data pre-processing %s',e)
+        logger.error('Unexpected error occured during data pre-processing %s',e)
         raise
 
 def main():
