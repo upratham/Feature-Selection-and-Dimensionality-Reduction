@@ -36,6 +36,9 @@ log_formatter=logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(mess
 console_handler.setFormatter(log_formatter)
 file_handler.setFormatter(log_formatter)
 
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)
+
 #crete result directory to save all results
 result_dir='result'
 os.makedirs(result_dir,exist_ok=True)
@@ -122,6 +125,7 @@ def pca(k,X,y):
         plt.tight_layout()
         scatter_path = os.path.join(plots_dir, f'pca_k_{k}_scatter.png')
         plt.savefig(scatter_path)
+        
         
 
     elif k==2:
