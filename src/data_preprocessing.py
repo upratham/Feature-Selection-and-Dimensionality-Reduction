@@ -26,7 +26,13 @@ log_formatter=logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(mess
 console_handler.setFormatter(log_formatter)
 file_handler.setFormatter(log_formatter)
 
-def data_preprocess( data=load_data()):
+#Complete logger
+
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)
+
+
+def data_preprocess(data)->pd.DataFrame:
     try:
         numeric_cols=data.select_dtypes(include='number').columns # Apply to only numeric columns
         data[numeric_cols] = data[numeric_cols].mask(data[numeric_cols] < 0, 0) #This replaces all values in X that are less than 0 with 0.
@@ -39,7 +45,8 @@ def data_preprocess( data=load_data()):
         raise
 
 def main():
-    data=data_preprocess()
+    data=load_data()
+    data=data_preprocess(data)
     print(data.head)
 
 if __name__=='__main__':

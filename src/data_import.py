@@ -32,7 +32,7 @@ logger.addHandler(file_handler)
 
 
 
-def load_data(path='data\pollution_dataset.csv')->pd.DataFrame:
+def load_data(path='C:\MSML\SEM 1\ML\ML Projects\Project 2\Feature-Selection-and-Dimensionality-Reduction\data\pollution_dataset.csv')->pd.DataFrame:
     try:
         data=pd.read_csv(path)
         logger.debug('Data loaded from %s',path)
