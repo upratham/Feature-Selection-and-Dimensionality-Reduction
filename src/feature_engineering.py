@@ -12,6 +12,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 import logging
 import os
+import feature_engineering
 
 # Create Log directory
 
@@ -101,7 +102,8 @@ def pca(k,X,y):
     nComps=k
     X_scaled = StandardScaler().fit_transform(X)
     pca = PCA(n_components=nComps)
-    X_pca_k=pca.fit_transform(X_scaled,y)
+    pca.fit(X_scaled)
+    X_pca_k=pca.transform(X_scaled)
     var_ratio = pca.explained_variance_ratio_
     plt.figure(figsize=(6, 5)) 
     classes = np.unique(y)
@@ -197,7 +199,8 @@ def lda(k,X,y):
     nComps = k
     X_scaled = StandardScaler().fit_transform(X)
     lda = LDA(n_components=nComps)
-    X_lda_k = lda.fit_transform(X_scaled,y)
+    lda.fit(X_scaled,y)
+    X_lda_k = lda.transform(X_scaled)
     var_ratio = lda.explained_variance_ratio_
 
     plt.figure(figsize=(6, 5))
