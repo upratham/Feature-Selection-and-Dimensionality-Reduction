@@ -3,7 +3,7 @@ import logging
 import os
 
 # Create Log directory
-log_dir='../logs'
+log_dir='logs'
 os.makedirs(log_dir,exist_ok=True)
 
 #Create Logger

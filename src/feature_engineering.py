@@ -14,8 +14,9 @@ import logging
 import os
 
 # Create Log directory
-log_dir='../logs'
-os.makedirs(log_dir,exist_ok=True)
+
+log_dir='logs'
+# os.makedirs(log_dir,exist_ok=True)
 
 #Create Logger
 logger=logging.getLogger('feature_engineering')
@@ -36,10 +37,10 @@ console_handler.setFormatter(log_formatter)
 file_handler.setFormatter(log_formatter)
 
 #crete result directory to save all results
-result_dir='../result'
+result_dir='result'
 os.makedirs(result_dir,exist_ok=True)
 results_file_path=os.path.join(result_dir,'feature_engineering_result.txt')
-
+open(results_file_path, 'w').close()
 #craete plot directory to save the plots
 plots_dir=os.path.join(result_dir,'feature_engineering_plots')
 os.makedirs(plots_dir,exist_ok=True)
@@ -79,14 +80,12 @@ def feature_imp_score(i,X,y):
     plt.bar(feature_imp_scores_sorted["Features"], feature_imp_scores_sorted["fea_imp_score"])
     plt.xlabel("Features")
     plt.ylabel("Feature Importance Score")
-    plt.title("Feature Importance Plot")
+    plt.title(f"Feature Importance Plot k={i}")
     plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.show()
-    
     fig_path = os.path.join(plots_dir, f'feature_importance_top_{i}.png')
     plt.savefig(fig_path)
-    plt.close()
+ 
 
     model=SelectFromModel(classifier,prefit=True)
     X_new=model.transform(X)
@@ -99,8 +98,7 @@ def pca(k,X,y):
     nComps=k
     X_scaled = StandardScaler().fit_transform(X)
     pca = PCA(n_components=nComps)
-    pca.fit(X_scaled)
-    X_pca_k=pca.transform(X_scaled)
+    X_pca_k=pca.fit_transform(X_scaled,y)
     var_ratio = pca.explained_variance_ratio_
     plt.figure(figsize=(6, 5)) 
     classes = np.unique(y)
@@ -120,6 +118,11 @@ def pca(k,X,y):
         plt.xlabel('PC1')
         plt.ylabel('Class')
         plt.title('PCA (k=1): PC1 vs class')
+        plt.legend()
+        plt.tight_layout()
+        scatter_path = os.path.join(plots_dir, f'pca_k_{k}_scatter.png')
+        plt.savefig(scatter_path)
+        
 
     elif k==2:
         # 2D case: PC1 vs PC2 colored by class (like your screenshot)
@@ -135,6 +138,11 @@ def pca(k,X,y):
         plt.xlabel('PC1')
         plt.ylabel('PC2')
         plt.title(f'PCA (k={k}): PC1 vs PC2')
+        plt.legend()
+        plt.tight_layout()
+        scatter_path = os.path.join(plots_dir, f'pca_k_{k}_scatter.png')
+        plt.savefig(scatter_path)
+      
     else:
         fig = plt.figure(figsize=(7, 6))
         ax = fig.add_subplot(111, projection='3d')
@@ -154,7 +162,9 @@ def pca(k,X,y):
         ax.set_title('PCA (k=3): PC1 vs PC2 vs PC3')
         ax.legend()
         plt.tight_layout()
-        plt.show()
+        scatter_path = os.path.join(plots_dir, f'pca_k_{k}_scatter_3d.png')
+        plt.savefig(scatter_path)
+       
 
 
 
@@ -163,13 +173,17 @@ def pca(k,X,y):
     components = np.arange(1, len(var_ratio) + 1)
     plt.bar(components, var_ratio)
     plt.xticks(components)
-    plt.xlabel('Principal Component')
+    plt.xlabel('PCA')
     plt.ylabel('Explained Variance Ratio')
     plt.title(f'PCA Explained Variance Ratio (k={k})')
     plt.tight_layout()
-    plt.show()
+
+    var_path = os.path.join(plots_dir, f'PCA_k_{k}_var_ratio.png')
+    plt.savefig(var_path)
+
     log_insight(f'PCA (k={k}) explained variance ratio: {var_ratio}')
-    return X_pca_k
+
+    
 
     return X_pca_k
  
@@ -179,7 +193,7 @@ def lda(k,X,y):
     nComps = k
     X_scaled = StandardScaler().fit_transform(X)
     lda = LDA(n_components=nComps)
-    X_lda_k = lda.fit_transform(X_scaled, y)
+    X_lda_k = lda.fit_transform(X_scaled,y)
     var_ratio = lda.explained_variance_ratio_
 
     plt.figure(figsize=(6, 5))
@@ -199,9 +213,11 @@ def lda(k,X,y):
         plt.xlabel('LD1')
         plt.ylabel('Class')
         plt.title('LDA (k=1): LD1 vs class')
-        scatter_path = os.path.join(plots_dir, f'pca_k_{k}_scatter.png')
+        plt.legend()
+        plt.tight_layout()
+        scatter_path = os.path.join(plots_dir, f'lda_k_{k}_scatter.png')
         plt.savefig(scatter_path)
-        plt.close()
+     
 
     elif k == 2:
         for cls, color in zip(classes, colors):
@@ -216,9 +232,11 @@ def lda(k,X,y):
         plt.xlabel('LD1')
         plt.ylabel('LD2')
         plt.title(f'LDA (k={k}): LD1 vs LD2')
-        scatter_path = os.path.join(plots_dir, f'pca_k_{k}_scatter.png')
+        plt.legend()
+        plt.tight_layout()
+        scatter_path = os.path.join(plots_dir, f'lda_k_{k}_scatter.png')
         plt.savefig(scatter_path)
-        plt.close()
+       
     else:
         fig = plt.figure(figsize=(7, 6))
         ax = fig.add_subplot(111, projection='3d')
@@ -238,10 +256,9 @@ def lda(k,X,y):
         ax.set_title('LDA (k=3): LD1 vs LD2 vs LD3')
         ax.legend()
         plt.tight_layout()
-        plt.show()
-        scatter_path = os.path.join(plots_dir, f'pca_k_{k}_scatter_3d.png')
+        scatter_path = os.path.join(plots_dir, f'lda_k_{k}_scatter_3d.png')
         plt.savefig(scatter_path)
-        plt.close()
+        
 
     plt.figure(figsize=(5, 4))
     components = np.arange(1, len(var_ratio) + 1)
@@ -251,10 +268,10 @@ def lda(k,X,y):
     plt.ylabel('Explained Variance Ratio')
     plt.title(f'LDA Explained Variance Ratio (k={k})')
     plt.tight_layout()
-    plt.show()
-    var_path = os.path.join(plots_dir, f'pca_k_{k}_var_ratio.png')
+  
+    var_path = os.path.join(plots_dir, f'lda_k_{k}_var_ratio.png')
     plt.savefig(var_path)
-    plt.close()
+  
     log_insight(f'LDA (k={k}) explained variance ratio: {var_ratio}')
 
     return X_lda_k
