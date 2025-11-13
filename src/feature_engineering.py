@@ -14,7 +14,7 @@ import logging
 import os
 
 # Create Log directory
-log_dir='logs'
+log_dir='../logs'
 os.makedirs(log_dir,exist_ok=True)
 
 #Create Logger
@@ -35,7 +35,20 @@ log_formatter=logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(mess
 console_handler.setFormatter(log_formatter)
 file_handler.setFormatter(log_formatter)
 
+#crete result directory to save all results
+result_dir='../result'
+os.makedirs(result_dir,exist_ok=True)
+results_file_path=os.path.join(result_dir,'feature_engineering_result.txt')
 
+#craete plot directory to save the plots
+plots_dir=os.path.join(result_dir,'feature_engineering_plots')
+os.makedirs(plots_dir,exist_ok=True)
+
+def log_insight(msg: str):
+    """Log insight to logger + write to results text file."""
+    logger.info(msg)
+    with open(results_file_path, "a", encoding="utf-8") as f:
+        f.write(msg + "\n")
 
 def univeriate(i,X,y):
     number_features=i
@@ -45,7 +58,8 @@ def univeriate(i,X,y):
     X_new = selector.fit_transform(X,y)
     X_new_features_mask = selector.get_support()
     X_new_feature_names = feature_names[X_new_features_mask]
-    print('\nSelected', number_features, 'features using univariate feature selection:\n',X_new_feature_names)
+    msg = f'\nSelected {number_features} features using univariate feature selection:\n{X_new_feature_names}'
+    log_insight(msg)
     return X_new
 
 
@@ -58,7 +72,8 @@ def feature_imp_score(i,X,y):
     feature_imp_scores['Features']=feature_names
     feature_imp_scores_sorted = feature_imp_scores.sort_values(by=feature_imp_scores.columns[0], ascending=False)
     top_k = feature_imp_scores_sorted['Features'].head(i).tolist()         # top k rows (names + scores)
-    print('\nSelected :',i,'features using feature importance score:\n',top_k)
+    msg = f'\nSelected : {i} features using feature importance score:\n{top_k}'
+    log_insight(msg)
     #Visualise the feature importance score
     plt.figure(figsize=(8,5))
     plt.bar(feature_imp_scores_sorted["Features"], feature_imp_scores_sorted["fea_imp_score"])
@@ -68,6 +83,11 @@ def feature_imp_score(i,X,y):
     plt.xticks(rotation=45)
     plt.tight_layout()
     plt.show()
+    
+    fig_path = os.path.join(plots_dir, f'feature_importance_top_{i}.png')
+    plt.savefig(fig_path)
+    plt.close()
+
     model=SelectFromModel(classifier,prefit=True)
     X_new=model.transform(X)
     X_new_k=X_new[:i,:]
@@ -148,6 +168,8 @@ def pca(k,X,y):
     plt.title(f'PCA Explained Variance Ratio (k={k})')
     plt.tight_layout()
     plt.show()
+    log_insight(f'PCA (k={k}) explained variance ratio: {var_ratio}')
+    return X_pca_k
 
     return X_pca_k
  
@@ -177,6 +199,9 @@ def lda(k,X,y):
         plt.xlabel('LD1')
         plt.ylabel('Class')
         plt.title('LDA (k=1): LD1 vs class')
+        scatter_path = os.path.join(plots_dir, f'pca_k_{k}_scatter.png')
+        plt.savefig(scatter_path)
+        plt.close()
 
     elif k == 2:
         for cls, color in zip(classes, colors):
@@ -191,6 +216,9 @@ def lda(k,X,y):
         plt.xlabel('LD1')
         plt.ylabel('LD2')
         plt.title(f'LDA (k={k}): LD1 vs LD2')
+        scatter_path = os.path.join(plots_dir, f'pca_k_{k}_scatter.png')
+        plt.savefig(scatter_path)
+        plt.close()
     else:
         fig = plt.figure(figsize=(7, 6))
         ax = fig.add_subplot(111, projection='3d')
@@ -211,6 +239,9 @@ def lda(k,X,y):
         ax.legend()
         plt.tight_layout()
         plt.show()
+        scatter_path = os.path.join(plots_dir, f'pca_k_{k}_scatter_3d.png')
+        plt.savefig(scatter_path)
+        plt.close()
 
     plt.figure(figsize=(5, 4))
     components = np.arange(1, len(var_ratio) + 1)
@@ -221,6 +252,10 @@ def lda(k,X,y):
     plt.title(f'LDA Explained Variance Ratio (k={k})')
     plt.tight_layout()
     plt.show()
+    var_path = os.path.join(plots_dir, f'pca_k_{k}_var_ratio.png')
+    plt.savefig(var_path)
+    plt.close()
+    log_insight(f'LDA (k={k}) explained variance ratio: {var_ratio}')
 
     return X_lda_k
 
