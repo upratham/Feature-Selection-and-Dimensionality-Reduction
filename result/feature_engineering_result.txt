@@ -1,1 +1,5 @@
-LDA (k=2) explained variance ratio: [0.9822482  0.01756347]
+LDA (k=1) explained variance ratio: [0.9822482]
+PCA (k=2) explained variance ratio: [0.55741525 0.14969902]
+
+Selected 3 features using univariate feature selection:
+['PM2.5' 'PM10' 'Population_Density']
