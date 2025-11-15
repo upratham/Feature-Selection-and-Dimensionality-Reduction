@@ -38,11 +38,10 @@ logger.addHandler(file_handler)
 
 
 
-def train(data):
-    print("=== NEW train() CALL ===")
+def train(data,iter,K):
+    msg="=== NEW train() CALL ==="
+    logger.debug(msg)
     results = []
-    
-    K=[1,2,3]
     X=data.drop(columns='Air Quality')
     y=data['Air Quality']
     dim_reduction=[feature_engineering.univeriate,feature_engineering.feature_imp_score,feature_engineering.pca,feature_engineering.lda]
@@ -55,7 +54,7 @@ def train(data):
         for k in K:
             df=funct(k,X,y)
             df=pd.DataFrame(df)
-            for i in range(1):
+            for i in range(iter):
                 X_train,X_test,y_train,y_test=train_test_split(df,y,test_size=0.25,random_state=None)
                 # Linear SVC 
             
@@ -88,7 +87,7 @@ def main():
     data=data_import.load_data()
     data=data_preprocessing.data_preprocess(data)
 
-    result=train(data)
+    result=train(data,5)
     result.shape
 
 if __name__ == '__main__':
