@@ -89,12 +89,10 @@ def feature_imp_score(i,X,y):
     plt.tight_layout()
     fig_path = os.path.join(plots_dir, f'feature_importance_top_{i}.png')
     plt.savefig(fig_path)
- 
-
-    model=SelectFromModel(classifier,prefit=True)
-    X_new=model.transform(X)
-    X_new_k=X_new[:i,:]
+    # DataFrame with EXACTLY k columns
+    X_new_k = X.loc[:, top_k].copy()     
     return X_new_k
+   
     
 
 
