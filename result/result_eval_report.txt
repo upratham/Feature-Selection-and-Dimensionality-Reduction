@@ -1,0 +1,57 @@
+Result.describe all
+               Fold Model     Accuracy      Method            K
+count   1200.000000  1200  1200.000000        1200  1200.000000
+unique          NaN     2          NaN           4          NaN
+top             NaN   SVM          NaN  Univeriate          NaN
+freq            NaN   600          NaN         300          NaN
+mean      24.500000   NaN     0.817244         NaN     2.000000
+std       14.436886   NaN     0.151371         NaN     0.816837
+min        0.000000   NaN     0.436000         NaN     1.000000
+25%       12.000000   NaN     0.797200         NaN     1.000000
+50%       24.500000   NaN     0.878400         NaN     2.000000
+75%       37.000000   NaN     0.925400         NaN     3.000000
+max       49.000000   NaN     0.960000         NaN     3.000000
+Average accuracy per K (all models combined) for metho =Univeriate:    K  Accuracy
+0  1  0.482224
+1  2  0.597776
+2  3  0.631208
+
+Average accuracy per K per Model for method= Univeriate
+ Model       SVM  guass_nb
+K                        
+1      0.479568  0.484880
+2      0.602432  0.593120
+3      0.715328  0.547088
+Average accuracy per K (all models combined) for metho =Feat_imp_score:    K  Accuracy
+0  1  0.843168
+1  2  0.872552
+2  3  0.890480
+
+Average accuracy per K per Model for method= Feat_imp_score
+ Model       SVM  guass_nb
+K                        
+1      0.842288  0.844048
+2      0.872784  0.872320
+3      0.888816  0.892144
+Average accuracy per K (all models combined) for metho =PCA:    K  Accuracy
+0  1  0.883152
+1  2  0.890880
+2  3  0.892352
+
+Average accuracy per K per Model for method= PCA
+ Model       SVM  guass_nb
+K                        
+1      0.885120  0.881184
+2      0.913584  0.868176
+3      0.915152  0.869552
+Average accuracy per K (all models combined) for metho =LDA:    K  Accuracy
+0  1  0.942432
+1  2  0.941136
+2  3  0.939568
+
+Average accuracy per K per Model for method= LDA
+ Model       SVM  guass_nb
+K                        
+1      0.942896  0.941968
+2      0.943184  0.939088
+3      0.941200  0.937936
