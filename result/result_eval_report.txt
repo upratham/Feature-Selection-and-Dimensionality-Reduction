@@ -1,57 +1,65 @@
 Result.describe all
                Fold Model     Accuracy      Method            K
-count   1200.000000  1200  1200.000000        1200  1200.000000
+count   1600.000000  1600  1600.000000        1600  1600.000000
 unique          NaN     2          NaN           4          NaN
 top             NaN   SVM          NaN  Univeriate          NaN
-freq            NaN   600          NaN         300          NaN
-mean      24.500000   NaN     0.817244         NaN     2.000000
-std       14.436886   NaN     0.151371         NaN     0.816837
-min        0.000000   NaN     0.436000         NaN     1.000000
-25%       12.000000   NaN     0.797200         NaN     1.000000
-50%       24.500000   NaN     0.878400         NaN     2.000000
-75%       37.000000   NaN     0.925400         NaN     3.000000
-max       49.000000   NaN     0.960000         NaN     3.000000
+freq            NaN   800          NaN         400          NaN
+mean      24.500000   NaN     0.846338         NaN     3.750000
+std       14.435381   NaN     0.140515         NaN     3.113448
+min        0.000000   NaN     0.449600         NaN     1.000000
+25%       12.000000   NaN     0.856000         NaN     1.750000
+50%       24.500000   NaN     0.904000         NaN     2.500000
+75%       37.000000   NaN     0.936000         NaN     4.500000
+max       49.000000   NaN     0.959200         NaN     9.000000
 Average accuracy per K (all models combined) for metho =Univeriate:    K  Accuracy
-0  1  0.482224
-1  2  0.597776
-2  3  0.631208
+0  1  0.478776
+1  2  0.601968
+2  3  0.630984
+3  9  0.933400
 
 Average accuracy per K per Model for method= Univeriate
  Model       SVM  guass_nb
 K                        
-1      0.479568  0.484880
-2      0.602432  0.593120
-3      0.715328  0.547088
+1      0.476432  0.481120
+2      0.605648  0.598288
+3      0.715392  0.546576
+9      0.940864  0.925936
 Average accuracy per K (all models combined) for metho =Feat_imp_score:    K  Accuracy
-0  1  0.843168
-1  2  0.872552
-2  3  0.890480
+0  1  0.842776
+1  2  0.874408
+2  3  0.891184
+3  9  0.932792
 
 Average accuracy per K per Model for method= Feat_imp_score
  Model       SVM  guass_nb
 K                        
-1      0.842288  0.844048
-2      0.872784  0.872320
-3      0.888816  0.892144
+1      0.841920  0.843632
+2      0.875104  0.873712
+3      0.889376  0.892992
+9      0.940752  0.924832
 Average accuracy per K (all models combined) for metho =PCA:    K  Accuracy
-0  1  0.883152
-1  2  0.890880
-2  3  0.892352
+0  1  0.883264
+1  2  0.893624
+2  3  0.891424
+3  9  0.934016
 
 Average accuracy per K per Model for method= PCA
  Model       SVM  guass_nb
 K                        
-1      0.885120  0.881184
-2      0.913584  0.868176
-3      0.915152  0.869552
+1      0.884992  0.881536
+2      0.916064  0.871184
+3      0.915040  0.867808
+9      0.940864  0.927168
 Average accuracy per K (all models combined) for metho =LDA:    K  Accuracy
-0  1  0.942432
-1  2  0.941136
-2  3  0.939568
+0  1  0.941240
+1  2  0.939248
+2  3  0.939248
+3  9  0.933064
 
 Average accuracy per K per Model for method= LDA
  Model       SVM  guass_nb
 K                        
-1      0.942896  0.941968
-2      0.943184  0.939088
-3      0.941200  0.937936
+1      0.941696  0.940784
+2      0.940944  0.937552
+3      0.941056  0.937440
+9      0.940992  0.925136

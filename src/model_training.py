@@ -52,10 +52,16 @@ def train(data,iter,K):
         idx = dim_reduction.index(funct)
         print(idx)
         for k in K:
-            df=funct(k,X,y)
+            if k>3:
+                df=X
+            else:
+                df=funct(k,X,y)             
             df=pd.DataFrame(df)
             for i in range(iter):
+                
                 X_train,X_test,y_train,y_test=train_test_split(df,y,test_size=0.25,random_state=None)
+
+               
                 # Linear SVC 
             
                 svm.fit(X_train, y_train)

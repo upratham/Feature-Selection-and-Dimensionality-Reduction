@@ -147,7 +147,7 @@ def pca(k,X,y):
         scatter_path = os.path.join(plots_dir, f'pca_k_{k}_scatter.png')
         plt.savefig(scatter_path)
       
-    else:
+    elif k==3:
         fig = plt.figure(figsize=(7, 6))
         ax = fig.add_subplot(111, projection='3d')
         for cls, color in zip(classes, colors):
@@ -242,7 +242,7 @@ def lda(k,X,y):
         scatter_path = os.path.join(plots_dir, f'lda_k_{k}_scatter.png')
         plt.savefig(scatter_path)
        
-    else:
+    elif k==3:
         fig = plt.figure(figsize=(7, 6))
         ax = fig.add_subplot(111, projection='3d')
         for cls, color in zip(classes, colors):
