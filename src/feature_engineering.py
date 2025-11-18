@@ -6,7 +6,7 @@ from sklearn.feature_selection import SelectKBest, chi2
 import data_import
 import data_preprocessing
 import matplotlib.pyplot as plt
-from sklearn.feature_selection import SelectFromModel
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
@@ -59,20 +59,26 @@ def univeriate(i,X,y):
     number_features=i
     #UNiveriate feature selection
     feature_names= np.array(X.columns.tolist()) 
-    selector=SelectKBest(chi2,k=number_features)   
-    X_new = selector.fit_transform(X,y)
+    selector=SelectKBest(chi2,k=number_features) 
+    scaler=MinMaxScaler()
+    X_scaled=scaler.fit_transform(X)
+    X_new = selector.fit_transform(X_scaled,y)
     X_new_features_mask = selector.get_support()
     X_new_feature_names = feature_names[X_new_features_mask]
     msg = f'\nSelected {number_features} features using univariate feature selection:\n{X_new_feature_names}'
     log_insight(msg)
+    
     return X_new
 
 
 def feature_imp_score(i,X,y):
     # Feature selection by importance score
     feature_names= np.array(X.columns.tolist())
+    scaler=MinMaxScaler()
+    X_scaled=scaler.fit_transform(X)
+    X_scaled = pd.DataFrame(X_scaled, columns=feature_names)
     classifier=RandomForestClassifier(n_estimators=100,random_state=21)
-    classifier.fit(X,y)
+    classifier.fit(X_scaled,y)
     feature_imp_scores=pd.DataFrame({'fea_imp_score': classifier.feature_importances_})
     feature_imp_scores['Features']=feature_names
     feature_imp_scores_sorted = feature_imp_scores.sort_values(by=feature_imp_scores.columns[0], ascending=False)
@@ -90,7 +96,7 @@ def feature_imp_score(i,X,y):
     fig_path = os.path.join(plots_dir, f'feature_importance_top_{i}.png')
     plt.savefig(fig_path)
     # DataFrame with EXACTLY k columns
-    X_new_k = X.loc[:, top_k].copy()     
+    X_new_k = X_scaled.loc[:, top_k].copy()     
     return X_new_k
    
     

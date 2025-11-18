@@ -73,7 +73,7 @@ def eval():
         
         mean_acc = ( df.groupby(['K', 'Model'], as_index=False)['Accuracy'].mean())
         mean_acc_per_k = (df.groupby('K', as_index=False)['Accuracy'].mean())
-        msg=f"Average accuracy per K (all models combined) for metho ={i}: {mean_acc_per_k}"
+        msg=f"Average accuracy per K (all models combined) for method ={i}: {mean_acc_per_k}"
         log_insight(msg)
         
         
@@ -98,7 +98,7 @@ def eval():
         plt.show()
 
 def main():
-    call_train()
+    #call_train()
     eval()
 
 if __name__ == '__main__':

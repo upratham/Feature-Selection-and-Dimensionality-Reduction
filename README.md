@@ -1,2 +1,3 @@
-# Feature-Selection-and-Dimensionality-Reduction
-Feature Selection and Dimensionality Reduction
+to run whole project 
+- python src/model_eval.py 
+

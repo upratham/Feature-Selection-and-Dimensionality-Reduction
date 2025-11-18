@@ -9,6 +9,7 @@ from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 from tqdm.auto  import tqdm
 from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import MinMaxScaler
 # Create Log directory
 
 log_dir='logs'
@@ -36,7 +37,7 @@ logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
 
-
+scaler=MinMaxScaler()
 
 def train(data,iter,K):
     msg="=== NEW train() CALL ==="
@@ -52,11 +53,18 @@ def train(data,iter,K):
         idx = dim_reduction.index(funct)
         print(idx)
         for k in K:
-            if k>3:
+            if k>3: #Considering all features 
                 df=X
-            else:
-                df=funct(k,X,y)             
-            df=pd.DataFrame(df)
+                df=pd.DataFrame(df)
+                df=scaler.fit_transform(df) # Min max scalling 
+
+            else:# considering K features
+                df=funct(k,X,y)  #fuct is feature selection method 
+                df=pd.DataFrame(df)             
+                save_dir = "data"
+                os.makedirs(save_dir, exist_ok=True)
+                df.to_csv(os.path.join(save_dir, f"data {dim_reduction_name[idx]} k={k}.csv"), index=False)
+
             for i in range(iter):
                 
                 X_train,X_test,y_train,y_test=train_test_split(df,y,test_size=0.25,random_state=None)
