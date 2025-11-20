@@ -2,10 +2,10 @@
 __pycache__/
 *.py[codz]
 *$py.class
-Project flow.txt
+git
 # C extensions
 *.so
-
+Project flow.txt
 # Distribution / packaging
 .Python
 build/
